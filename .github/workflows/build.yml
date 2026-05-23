@@ -14,6 +14,11 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v2
     
+    - name: Install Windows Driver Kit
+      uses: microsoft/setup-wdk@v1
+      with:
+        wdk-version: '10.0.22621'  # 可根据目标系统调整，通常匹配 SDK 版本
+    
     - name: Build
       run: |
         msbuild.exe ${{ github.event.repository.name }}.sln /m /verbosity:minimal /t:Rebuild /p:Configuration=Release /p:Platform=x64
