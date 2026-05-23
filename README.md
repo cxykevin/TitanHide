@@ -2,7 +2,7 @@
 
 # Overview
 
-TitanHide is a driver intended to hide debuggers from certain processes. The driver hooks various Nt* kernel functions (using SSDT table hooks) and modifies the return values of the original functions. To hide a process, you must pass a simple structure with a ProcessID and the hiding option(s) to enable, to the driver. The internal API is designed to add hooks with little effort, which means adding features is really easy.
+VxKernLdr is a driver intended to hide debuggers from certain processes. The driver hooks various Nt* kernel functions (using SSDT table hooks) and modifies the return values of the original functions. To hide a process, you must pass a simple structure with a ProcessID and the hiding option(s) to enable, to the driver. The internal API is designed to add hooks with little effort, which means adding features is really easy.
 
 The idea for this project was thought of together with cypher, shoutout man!
 
@@ -30,7 +30,7 @@ The idea for this project was thought of together with cypher, shoutout man!
 
 1. Install Visual Studio 2022.
 2. Install the [WDK10](https://go.microsoft.com/fwlink/?linkid=2128854)/[WDK8](https://go.microsoft.com/fwlink/p/?LinkID=324284)/[WDK7](https://www.microsoft.com/download/confirmation.aspx?id=11800).
-3. Open `TitanHide.sln` and hit compile!
+3. Open `VxKernLdr.sln` and hit compile!
 
 # Requirements
 
@@ -51,23 +51,23 @@ bcdedit /set testsigning on
 
 # Installation
 
-1. Copy `TitanHide.sys` to `%systemroot%\system32\drivers`.
-2. Run the command `sc create TitanHide binPath= %systemroot%\system32\drivers\TitanHide.sys type= kernel` to create the TitanHide service.
-3. Run the command `sc start TitanHide` to start the TitanHide service.
-4. Run the command `sc query TitanHide` to check if TitanHide is running.
+1. Copy `VxKernLdr.sys` to `%systemroot%\system32\drivers`.
+2. Run the command `sc create VxKernLdr binPath= %systemroot%\system32\drivers\VxKernLdr.sys type= kernel` to create the VxKernLdr service.
+3. Run the command `sc start VxKernLdr` to start the VxKernLdr service.
+4. Run the command `sc query VxKernLdr` to check if VxKernLdr is running.
 
-To check if TitanHide is working correctly, use [DebugView](https://technet.microsoft.com/en-us/sysinternals/debugview.aspx) or check `C:\TitanHide.log`.
+To check if VxKernLdr is working correctly, use [DebugView](https://technet.microsoft.com/en-us/sysinternals/debugview.aspx) or check `C:\VxKernLdr.log`.
 
 ## Hiding
 
-For VMProtect 3.9.4 and above you need to change the service name to something else. For example `sc create NotTitanHide`, which will bypass their latest 'detection'. After changing the service name you will need to configure the plugin with the following command in x64dbg:
+For VMProtect 3.9.4 and above you need to change the service name to something else. For example `sc create NotVxKernLdr`, which will bypass their latest 'detection'. After changing the service name you will need to configure the plugin with the following command in x64dbg:
 
 ```
-TitanHideName NotTitanHide
+VxKernLdrName NotVxKernLdr
 ```
 
 # Remarks
 
-- When using x64dbg, you can use the TitanHide plugin (available on the download page).
+- When using x64dbg, you can use the VxKernLdr plugin (available on the download page).
 - **NEVER RUN THIS DRIVER ON A PRODUCTION SYSTEM, ALWAYS USE A VM!**
 

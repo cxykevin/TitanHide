@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{176822C9-3CF8-41A9-81AB-8BBD3E3E2A32}</ProjectGuid>
-    <RootNamespace>TitanHide_x64dbg</RootNamespace>
-    <ProjectName>TitanHide_x64dbg</ProjectName>
+    <RootNamespace>VxKernLdr_x64dbg</RootNamespace>
+    <ProjectName>VxKernLdr_x64dbg</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -75,22 +75,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dp32</TargetExt>
     <OutDir>$(SolutionDir)$(Configuration)\plugins\</OutDir>
-    <TargetName>TitanHide</TargetName>
+    <TargetName>VxKernLdr</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dp32</TargetExt>
     <OutDir>$(SolutionDir)$(Configuration)\plugins\</OutDir>
-    <TargetName>TitanHide</TargetName>
+    <TargetName>VxKernLdr</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.dp64</TargetExt>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\plugins\</OutDir>
-    <TargetName>TitanHide</TargetName>
+    <TargetName>VxKernLdr</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.dp64</TargetExt>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\plugins\</OutDir>
-    <TargetName>TitanHide</TargetName>
+    <TargetName>VxKernLdr</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

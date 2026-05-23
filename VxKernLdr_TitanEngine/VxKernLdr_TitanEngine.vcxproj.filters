@@ -13,17 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\VxKernLdr">
+      <UniqueIdentifier>{259a6886-5bf1-4f4d-a74b-ba59ba884028}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pebhider.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TitanEngine\TitanEngine.h">
+      <Filter>Header Files\VxKernLdr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pebhider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TitanHideOlly.cpp">
+    <ClCompile Include="VxKernLdrTE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

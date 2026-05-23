@@ -39,7 +39,7 @@
     <ClInclude Include="ssdt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TitanHide.h">
+    <ClInclude Include="VxKernLdr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="undocumented.h">
@@ -77,7 +77,7 @@
     <ClCompile Include="ssdt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TitanHide.cpp">
+    <ClCompile Include="VxKernLdr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="undocumented.cpp">
