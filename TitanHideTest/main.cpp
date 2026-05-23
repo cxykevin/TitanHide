@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <Subauth.h>
-#include "..\TitanHide\TitanHide.h"
+#include "..\VxKernLdr\VxKernLdr.h"
 
 //Thanks to:
 //http://www.codeproject.com/Articles/30815/An-Anti-Reverse-Engineering-Guide
@@ -411,7 +411,7 @@ int main(int argc, char* argv[])
     else
     puts("OpenProcess FAILED...");
     printf("%u\n", GetCurrentProcessId());*/
-    /*HANDLE hDevice=CreateFileA("\\\\.\\TitanHide", GENERIC_READ|GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
+    /*HANDLE hDevice=CreateFileA("\\\\.\\VxKernLdr", GENERIC_READ|GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
     if(hDevice==INVALID_HANDLE_VALUE)
     puts("invalid handle...");
     else

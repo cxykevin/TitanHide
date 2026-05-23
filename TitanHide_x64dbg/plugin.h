@@ -3,10 +3,10 @@
 
 #include "pluginmain.h"
 
-#define PLUGIN_NAME "TitanHide"
+#define PLUGIN_NAME "VxKernLdr"
 #define PLUGIN_VERSION 1
 
-void TitanHideInit(PLUG_INITSTRUCT* initStruct);
-void TitanHideStop();
+void VxKernLdrInit(PLUG_INITSTRUCT* initStruct);
+void VxKernLdrStop();
 
 #endif // _TEST_H

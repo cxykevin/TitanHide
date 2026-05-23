@@ -2,33 +2,33 @@
 #include <windows.h>
 #include <stdio.h>
 #include <string>
-#include "../TitanHide/TitanHide.h"
+#include "../VxKernLdr/VxKernLdr.h"
 
 static DWORD pid = 0;
 static bool hidden = false;
-static std::string driverName = "TitanHide";
+static std::string driverName = "VxKernLdr";
 
-static ULONG GetTitanHideOptions()
+static ULONG GetVxKernLdrOptions()
 {
     duint options = 0;
-    if (!BridgeSettingGetUint("TitanHide", "Options", &options))
+    if (!BridgeSettingGetUint("VxKernLdr", "Options", &options))
         options = 0xffffffff;
     return (ULONG)options;
 }
 
-static bool TitanHideCall(HIDE_COMMAND Command)
+static bool VxKernLdrCall(HIDE_COMMAND Command)
 {
     auto path = "\\\\.\\" + driverName;
     HANDLE hDevice = CreateFileA(path.c_str(), GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
     if (hDevice == INVALID_HANDLE_VALUE)
     {
-        _plugin_logputs("[" PLUGIN_NAME "] Could not open TitanHide handle (wrong driver name?)");
+        _plugin_logputs("[" PLUGIN_NAME "] Could not open VxKernLdr handle (wrong driver name?)");
         return false;
     }
     HIDE_INFO HideInfo;
     HideInfo.Command = Command;
     HideInfo.Pid = pid;
-    HideInfo.Type = GetTitanHideOptions();
+    HideInfo.Type = GetVxKernLdrOptions();
     DWORD written = 0;
     auto result = false;
     if (WriteFile(hDevice, &HideInfo, sizeof(HIDE_INFO), &written, 0))
@@ -44,12 +44,12 @@ static bool TitanHideCall(HIDE_COMMAND Command)
     return result;
 }
 
-static bool cbTitanHide(int argc, char* argv[])
+static bool cbVxKernLdr(int argc, char* argv[])
 {
     if (!hidden)
     {
         _plugin_logprintf("[" PLUGIN_NAME "] Hiding PID %X (%ud)\n", pid, pid);
-        if (TitanHideCall(HidePid))
+        if (VxKernLdrCall(HidePid))
         {
             DbgCmdExecDirect("hide");
             hidden = true;
@@ -63,30 +63,30 @@ static bool cbTitanUnhide(int argc, char* argv[])
     if (hidden)
     {
         _plugin_logprintf("[" PLUGIN_NAME "] Unhiding PID %X (%ud)\n", pid, pid);
-        if (TitanHideCall(UnhidePid))
+        if (VxKernLdrCall(UnhidePid))
             hidden = false;
     }
     return !hidden;
 }
 
-static bool cbTitanHideOptions(int argc, char* argv[])
+static bool cbVxKernLdrOptions(int argc, char* argv[])
 {
     if (argc < 2)
     {
-        _plugin_logprintf("[" PLUGIN_NAME "] Options: 0x%08X\n", GetTitanHideOptions());
+        _plugin_logprintf("[" PLUGIN_NAME "] Options: 0x%08X\n", GetVxKernLdrOptions());
     }
     else
     {
         duint options = DbgValFromString(argv[1]);
-        BridgeSettingSetUint("TitanHide", "Options", options & 0xffffffff);
+        BridgeSettingSetUint("VxKernLdr", "Options", options & 0xffffffff);
         if (hidden)
-            TitanHideCall(HidePid);
-        _plugin_logprintf("[" PLUGIN_NAME "] New options: 0x%08X\n", GetTitanHideOptions());
+            VxKernLdrCall(HidePid);
+        _plugin_logprintf("[" PLUGIN_NAME "] New options: 0x%08X\n", GetVxKernLdrOptions());
     }
     return true;
 }
 
-static bool cbTitanHideName(int argc, char* argv[])
+static bool cbVxKernLdrName(int argc, char* argv[])
 {
     if (argc < 2)
     {
@@ -95,7 +95,7 @@ static bool cbTitanHideName(int argc, char* argv[])
     else
     {
         driverName = argv[1];
-        BridgeSettingSet("TitanHide", "DriverName", driverName.c_str());
+        BridgeSettingSet("VxKernLdr", "DriverName", driverName.c_str());
         _plugin_logprintf("[" PLUGIN_NAME "] New driver name: '%s'\n", driverName.c_str());
     }
     return true;
@@ -113,8 +113,8 @@ PLUG_EXPORT void CBATTACH(CBTYPE cbType, PLUG_CB_ATTACH* info)
 
 PLUG_EXPORT void CBSYSTEMBREAKPOINT(CBTYPE cbType, PLUG_CB_SYSTEMBREAKPOINT* info)
 {
-    char* argv = "TitanHide";
-    cbTitanHide(1, &argv);
+    char* argv = "VxKernLdr";
+    cbVxKernLdr(1, &argv);
 }
 
 PLUG_EXPORT void CBSTOPDEBUG(CBTYPE cbType, PLUG_CB_STOPDEBUG* info)
@@ -123,24 +123,24 @@ PLUG_EXPORT void CBSTOPDEBUG(CBTYPE cbType, PLUG_CB_STOPDEBUG* info)
     cbTitanUnhide(1, &argv);
 }
 
-void TitanHideInit(PLUG_INITSTRUCT* initStruct)
+void VxKernLdrInit(PLUG_INITSTRUCT* initStruct)
 {
     char setting[MAX_SETTING_SIZE] = "";
-    BridgeSettingGet("TitanHide", "DriverName", setting);
+    BridgeSettingGet("VxKernLdr", "DriverName", setting);
     if (setting[0] != '\0')
     {
         driverName = setting;
     }
 
-    _plugin_registercommand(pluginHandle, "TitanHide", cbTitanHide, true);
+    _plugin_registercommand(pluginHandle, "VxKernLdr", cbVxKernLdr, true);
     _plugin_registercommand(pluginHandle, "TitanUnhide", cbTitanUnhide, true);
-    _plugin_registercommand(pluginHandle, "TitanHideOptions", cbTitanHideOptions, false);
-    _plugin_registercommand(pluginHandle, "TitanHideName", cbTitanHideName, false);
+    _plugin_registercommand(pluginHandle, "VxKernLdrOptions", cbVxKernLdrOptions, false);
+    _plugin_registercommand(pluginHandle, "VxKernLdrName", cbVxKernLdrName, false);
 }
 
-void TitanHideStop()
+void VxKernLdrStop()
 {
-    _plugin_unregistercommand(pluginHandle, "TitanHideOptions");
+    _plugin_unregistercommand(pluginHandle, "VxKernLdrOptions");
     _plugin_unregistercommand(pluginHandle, "TitanUnhide");
-    _plugin_unregistercommand(pluginHandle, "TitanHide");
+    _plugin_unregistercommand(pluginHandle, "VxKernLdr");
 }

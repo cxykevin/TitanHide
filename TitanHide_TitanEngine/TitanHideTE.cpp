@@ -1,6 +1,6 @@
 #include <windows.h>
 #include "TitanEngine/TitanEngine.h"
-#include "../TitanHide/TitanHide.h"
+#include "../VxKernLdr/VxKernLdr.h"
 
 #ifdef _WIN64
 #pragma comment(lib, "TitanEngine/TitanEngine_x64.lib")
@@ -8,9 +8,9 @@
 #pragma comment(lib, "TitanEngine/TitanEngine_x86.lib")
 #endif //_WIN64
 
-static void TitanHideCall(DWORD ProcessId, HIDE_COMMAND Command)
+static void VxKernLdrCall(DWORD ProcessId, HIDE_COMMAND Command)
 {
-    HANDLE hDevice = CreateFileA("\\\\.\\TitanHide", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
+    HANDLE hDevice = CreateFileA("\\\\.\\VxKernLdr", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
     if(hDevice == INVALID_HANDLE_VALUE)
     {
         return;
@@ -27,7 +27,7 @@ static void TitanHideCall(DWORD ProcessId, HIDE_COMMAND Command)
 
 extern "C" __declspec(dllexport) bool TitanRegisterPlugin(char* szPluginName, LPDWORD titanPluginMajorVersion, LPDWORD titanPluginMinorVersion)
 {
-    strcpy_s(szPluginName, 64, "TitanHide");
+    strcpy_s(szPluginName, 64, "VxKernLdr");
     *titanPluginMajorVersion = 1;
     *titanPluginMinorVersion = 0;
     return true;
@@ -48,7 +48,7 @@ extern "C" __declspec(dllexport) void TitanDebuggingCallBack(LPDEBUG_EVENT debug
         {
             hProcess = debugEvent->u.CreateProcessInfo.hProcess;
             ProcessId = debugEvent->dwProcessId;
-            TitanHideCall(ProcessId, HidePid);
+            VxKernLdrCall(ProcessId, HidePid);
             PEBHidden = false;
         }
         break;
@@ -75,7 +75,7 @@ extern "C" __declspec(dllexport) void TitanDebuggingCallBack(LPDEBUG_EVENT debug
 
     case UE_PLUGIN_CALL_REASON_POSTDEBUG:
     {
-        TitanHideCall(ProcessId, UnhidePid);
+        VxKernLdrCall(ProcessId, UnhidePid);
     }
     break;
     }

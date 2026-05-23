@@ -20,7 +20,7 @@ static KMUTEX gDebugPortMutex;
 
 //https://forum.tuts4you.com/topic/40011-debugme-vmprotect-312-build-886-anti-debug-method-improved/#comment-192824
 //https://github.com/x64dbg/ScyllaHide/issues/47
-//https://github.com/mrexodia/TitanHide/issues/27
+//https://github.com/mrexodia/VxKernLdr/issues/27
 #define BACKUP_RETURNLENGTH() \
     ULONG TempReturnLength = 0; \
     if(ARGUMENT_PRESENT(ReturnLength)) \

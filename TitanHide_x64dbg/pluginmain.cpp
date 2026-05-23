@@ -14,13 +14,13 @@ PLUG_EXPORT bool pluginit(PLUG_INITSTRUCT* initStruct)
     initStruct->sdkVersion = PLUG_SDKVERSION;
     strncpy_s(initStruct->pluginName, PLUGIN_NAME, _TRUNCATE);
     pluginHandle = initStruct->pluginHandle;
-    TitanHideInit(initStruct);
+    VxKernLdrInit(initStruct);
     return true;
 }
 
 PLUG_EXPORT bool plugstop()
 {
-    TitanHideStop();
+    VxKernLdrStop();
     return true;
 }
 

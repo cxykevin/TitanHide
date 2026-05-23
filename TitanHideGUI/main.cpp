@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <utility>
 #include "resource.h"
-#include "..\TitanHide\TitanHide.h"
+#include "..\VxKernLdr\VxKernLdr.h"
 
 static HINSTANCE hInst;
 static char iniPath[MAX_PATH];
@@ -33,15 +33,15 @@ static ULONG GetTypeDword(HWND hwndDlg)
     return Option;
 }
 
-static void TitanHideCall(HWND hwndDlg, HIDE_COMMAND Command)
+static void VxKernLdrCall(HWND hwndDlg, HIDE_COMMAND Command)
 {
     char driverName[256] = "\\\\.\\";
     GetWindowTextA(GetDlgItem(hwndDlg, IDC_EDT_DRIVER), driverName + 4, sizeof(driverName) - 4);
-    WritePrivateProfileStringA("TitanHide", "DriverName", driverName + 4, iniPath);
+    WritePrivateProfileStringA("VxKernLdr", "DriverName", driverName + 4, iniPath);
     HANDLE hDevice = CreateFileA(driverName, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
     if(hDevice == INVALID_HANDLE_VALUE)
     {
-        MessageBoxA(hwndDlg, "Could not open TitanHide handle...", "Driver loaded?", MB_ICONERROR);
+        MessageBoxA(hwndDlg, "Could not open VxKernLdr handle...", "Driver loaded?", MB_ICONERROR);
         return;
     }
     HIDE_INFO HideInfo;
@@ -62,13 +62,13 @@ static BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
     {
     case WM_INITDIALOG:
     {
-        SetWindowTextA(GetDlgItem(hwndDlg, IDC_EDT_DRIVER), "TitanHide");
+        SetWindowTextA(GetDlgItem(hwndDlg, IDC_EDT_DRIVER), "VxKernLdr");
         for (const auto& option : gOptions)
         {
             CheckDlgButton(hwndDlg, option.first, BST_CHECKED);
         }
         char driverName[256] = "";
-        GetPrivateProfileStringA("TitanHide", "DriverName", "TitanHide", driverName, sizeof(driverName), iniPath);
+        GetPrivateProfileStringA("VxKernLdr", "DriverName", "VxKernLdr", driverName, sizeof(driverName), iniPath);
         SetWindowTextA(GetDlgItem(hwndDlg, IDC_EDT_DRIVER), driverName);
     }
     return TRUE;
@@ -85,19 +85,19 @@ static BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
         {
         case IDC_BTN_HIDE:
         {
-            TitanHideCall(hwndDlg, HidePid);
+            VxKernLdrCall(hwndDlg, HidePid);
         }
         return TRUE;
 
         case IDC_BTN_UNHIDE:
         {
-            TitanHideCall(hwndDlg, UnhidePid);
+            VxKernLdrCall(hwndDlg, UnhidePid);
         }
         return TRUE;
 
         case IDC_BTN_UNHIDEALL:
         {
-            TitanHideCall(hwndDlg, UnhideAll);
+            VxKernLdrCall(hwndDlg, UnhideAll);
         }
         return TRUE;
         }

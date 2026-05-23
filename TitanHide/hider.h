@@ -2,7 +2,7 @@
 #define _HIDER_H
 
 #include "_global.h"
-#include "TitanHide.h"
+#include "VxKernLdr.h"
 
 class Hider
 {

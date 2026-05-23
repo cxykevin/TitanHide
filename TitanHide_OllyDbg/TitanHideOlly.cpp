@@ -1,6 +1,6 @@
 #include <windows.h>
 #include <stdio.h>
-#include "../TitanHide/TitanHide.h"
+#include "../VxKernLdr/VxKernLdr.h"
 #include "pebhider.h"
 
 //OllyDbg definitions
@@ -12,9 +12,9 @@
 //global variables
 static DWORD ProcessId;
 
-static void TitanHideCall(DWORD ProcessId, HIDE_COMMAND Command)
+static void VxKernLdrCall(DWORD ProcessId, HIDE_COMMAND Command)
 {
-    HANDLE hDevice = CreateFileA("\\\\.\\TitanHide", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
+    HANDLE hDevice = CreateFileA("\\\\.\\VxKernLdr", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
     if(hDevice == INVALID_HANDLE_VALUE)
         return;
     HIDE_INFO HideInfo;
@@ -29,7 +29,7 @@ static void TitanHideCall(DWORD ProcessId, HIDE_COMMAND Command)
 //OllyDbg1 exports
 extern "C" __declspec(dllexport) int _ODBG_Plugindata(char name[32])
 {
-    strcpy_s(name, 32, "TitanHide");
+    strcpy_s(name, 32, "VxKernLdr");
     return PLUGIN_VERSION1;
 }
 
@@ -52,7 +52,7 @@ extern "C" __declspec(dllexport) void _ODBG_Pluginmainloop(DEBUG_EVENT* DebugEve
     {
         hProcess = DebugEvent->u.CreateProcessInfo.hProcess;
         ProcessId = DebugEvent->dwProcessId;
-        TitanHideCall(ProcessId, HidePid);
+        VxKernLdrCall(ProcessId, HidePid);
         PEBHidden = false;
     }
     break;
@@ -77,7 +77,7 @@ extern "C" __declspec(dllexport) void _ODBG_Pluginmainloop(DEBUG_EVENT* DebugEve
     case EXIT_PROCESS_DEBUG_EVENT:
     {
         if(DebugEvent->dwProcessId == ProcessId) //main process terminates
-            TitanHideCall(ProcessId, UnhidePid);
+            VxKernLdrCall(ProcessId, UnhidePid);
     }
     break;
     }
@@ -86,7 +86,7 @@ extern "C" __declspec(dllexport) void _ODBG_Pluginmainloop(DEBUG_EVENT* DebugEve
 extern "C" __declspec(dllexport) int _ODBG_Pausedex(int reason, int extdata, void* reg, DEBUG_EVENT* DebugEvent)
 {
     if((reason & PP_MAIN) == PP_TERMINATED)
-        TitanHideCall(ProcessId, UnhidePid);
+        VxKernLdrCall(ProcessId, UnhidePid);
     return 0;
 }
 
@@ -98,6 +98,6 @@ extern "C" __declspec(dllexport) void _ODBG2_Pluginmainloop(DEBUG_EVENT* DebugEv
 
 extern "C" __declspec(dllexport) int _ODBG2_Pluginquery(int ollyVersion, unsigned long* features, wchar_t pluginname[32], wchar_t pluginversion[32])
 {
-    wcscpy_s(pluginname, 32, L"TitanHide");
+    wcscpy_s(pluginname, 32, L"VxKernLdr");
     return PLUGIN_VERSION2;
 }

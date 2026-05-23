@@ -96,7 +96,7 @@ extern "C" NTSTATUS DriverEntry(IN PDRIVER_OBJECT DriverObject, IN PUNICODE_STRI
     // Fall back to default driver name
     if (DriverName.Length == 0)
     {
-        RtlInitUnicodeString(&DriverName, L"TitanHide");
+        RtlInitUnicodeString(&DriverName, L"VxKernLdr");
     }
 
     // Use the driver name
